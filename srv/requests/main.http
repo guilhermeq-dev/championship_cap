@@ -1,0 +1,108 @@
+@server = http://localhost:4004
+@auth = Authorization: Basic alice:
+
+// CHAMPIONSHIPS
+
+### MainService.Championships
+GET {{server}}/odata/v4/main/Championships
+Content-Type: application/json
+{{auth}}
+
+### MainService.Championships
+POST {{server}}/odata/v4/main/Championships
+Content-Type: application/json
+{{auth}}
+
+{
+"name": "Copa do Brasil",
+"descr": "Torneio com melhor premiação do futebol brasileiro"
+}
+
+### MainService.Championships
+PATCH {{server}}/odata/v4/main/Championships/13746436-6267-4cf8-bf7f-fc362244bc8b
+Content-Type: application/json
+{{auth}}
+
+{
+  "ID": "13746436-6267-4cf8-bf7f-fc362244bc8b",
+  "name": "name-13746436",
+  "descr": "descr-13746436",
+  "teams": [
+    {
+      "ID": "31733765-957f-48df-8664-6c7ea348ebe8",
+      "team_name": "team_name-31733765"
+    },
+    {
+      "ID": "31733766-d848-44a6-afc0-c89eb2d21b56",
+      "team_name": "team_name-31733766"
+    }
+  ],
+  "matches": [
+    {
+      "ID": "252349c8-bef8-402d-85d1-01871d1995f2",
+      "date": "2020-08-26",
+      "stadium": "stadium-252349",
+      "scoreboard": "scoreboard-252349"
+    },
+    {
+      "ID": "2523501d-fbf5-4339-8a20-690bbd80ae9d",
+      "date": "2008-02-14",
+      "stadium": "stadium-252350",
+      "scoreboard": "scoreboard-252350"
+    }
+  ]
+}
+
+### MainService.Championships
+DELETE {{server}}/odata/v4/main/Championships/69ce4558-e23b-477a-84e7-a74a728f139a
+Content-Type: application/json
+{{auth}}
+
+
+// TEAMS
+
+### MainService.Teams
+GET {{server}}/odata/v4/main/Teams
+Content-Type: application/json
+{{auth}}
+
+### MainService.Teams
+POST {{server}}/odata/v4/main/Teams
+Content-Type: application/json
+{{auth}}
+
+{
+    "team_name": "Grêmio",
+    "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
+}
+
+### MainService.Teams
+DELETE {{server}}/odata/v4/main/Teams/4bdbee7e-c78b-408a-bc1d-e44b6dd98cad
+Content-Type: application/json
+{{auth}}
+
+// MATCHES
+
+### MainService.Matches
+GET {{server}}/odata/v4/main/Matches
+Content-Type: application/json
+{{auth}}
+
+### MainService.Matches
+POST {{server}}/odata/v4/main/Matches
+Content-Type: application/json
+{{auth}}
+
+{
+    "team_1_ID": "34e3044e-3efd-4ae3-bd11-4453cfbbaca6",
+    "team_2_ID": "35f3044e-3efd-4ae3-bd11-4453cfbbaca6",
+    "date": "2008-02-14",
+    "stadium": "Vila Belmiro",
+    "scoreboard": "2-1",
+    "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
+}
+
+### MainService.Matches
+DELETE {{server}}/odata/v4/main/Matches/52f3044e-3efd-4ae3-bd11-4453cfbbaca6
+Content-Type: application/json
+{{auth}}
