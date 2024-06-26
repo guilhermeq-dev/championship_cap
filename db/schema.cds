@@ -12,9 +12,6 @@ entity Championships : cuid {
 entity Teams : cuid {
     team_name           : String;
     championship        : Association to Championships;
-    matches_as_team_1   : Association to many Matches on matches_as_team_1.team_1 = $self;
-    matches_as_team_2   : Association to many Matches on matches_as_team_2.team_1 = $self;
-    matches             : Association to many Matches;
 }
 
 entity Matches : cuid {
