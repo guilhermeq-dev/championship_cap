@@ -42,13 +42,11 @@ Content-Type: application/json
       "ID": "252349c8-bef8-402d-85d1-01871d1995f2",
       "date": "2020-08-26",
       "stadium": "stadium-252349",
-      "scoreboard": "scoreboard-252349"
     },
     {
       "ID": "2523501d-fbf5-4339-8a20-690bbd80ae9d",
       "date": "2008-02-14",
       "stadium": "stadium-252350",
-      "scoreboard": "scoreboard-252350"
     }
   ]
 }
@@ -57,7 +55,6 @@ Content-Type: application/json
 DELETE {{server}}/odata/v4/main/Championships/69ce4558-e23b-477a-84e7-a74a728f139a
 Content-Type: application/json
 {{auth}}
-
 
 // TEAMS
 
@@ -98,7 +95,6 @@ Content-Type: application/json
     "team_2_ID": "35f3044e-3efd-4ae3-bd11-4453cfbbaca6",
     "date": "2008-02-14",
     "stadium": "Vila Belmiro",
-    "scoreboard": "2-1",
     "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
 }
 

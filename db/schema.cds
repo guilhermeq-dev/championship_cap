@@ -17,8 +17,7 @@ entity Teams : cuid {
 entity Matches : cuid {
     team_1          : Association to Teams;
     team_2          : Association to Teams;
-    date            : Date;
+    date            : Timestamp;
     stadium         : String;
-    scoreboard      : String default '0-0';
     championship    : Association to Championships;
 }
