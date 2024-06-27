@@ -1,4 +1,5 @@
 const cds = require('@sap/cds');
+const { setServers } = require('dns');
 
 module.exports = async (srv) => {
 
@@ -92,6 +93,40 @@ module.exports = async (srv) => {
 
     srv.after('CREATE', 'Championships', async (req) => {
         return console.log('Campeonato criado com sucesso.')
+    });
+
+    srv.before('CREATE', 'Teams', async (req) => {
+        const { ID, team_name, championship_ID } = req.data;
+
+        const existsTeam = await SELECT.one().from(dbe.Teams).where({ team_name });
+
+        if(existsTeam) {
+            return req.error(400, "Time já cadastrado.")
+        }
+
+        return console.log(`O time ${team_name} está pronto para ser inserido no campeonato.`)
+
+    });
+
+    srv.on('CREATE', 'Teams', async (req) => {
+        const { ID, team_name, championship_ID } = req.data;
+
+        await INSERT({
+            ID: ID,
+            team_name: team_name,
+            championship_ID: championship_ID
+        }).into(dbe.Teams);
+
+        const team = await SELECT.one().from(dbe.Teams).where({ ID: ID });
+        
+        console.log(team);
+
+        return team;
+
+    });
+
+    srv.after('CREATE', 'Teams', async (req) => {
+        return console.log('Time inserido no campeonato com sucesso.')
     });
 
 }

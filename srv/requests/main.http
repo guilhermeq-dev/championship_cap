@@ -1,4 +1,4 @@
-@server = http://localhost:4020
+@server = http://localhost:4022
 @auth = Authorization: Basic alice:
 
 // CHAMPIONSHIPS
@@ -69,7 +69,7 @@ Content-Type: application/json
 {{auth}}
 
 {
-    "team_name": "Grêmio",
+    "team_name": "Juventude",
     "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
 }
 
