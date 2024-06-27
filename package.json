@@ -17,5 +17,13 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "db": "hana",
+      "auth": {
+        "kind": "mocked"
+      }
+    }
   }
 }

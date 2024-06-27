@@ -1,5 +1,4 @@
 const cds = require('@sap/cds');
-const { setServers } = require('dns');
 
 module.exports = async (srv) => {
 
@@ -129,4 +128,15 @@ module.exports = async (srv) => {
         return console.log('Time inserido no campeonato com sucesso.')
     });
 
+    srv.on('getMatches', async (req) => {
+        const matches = await SELECT.from(dbe.Matches);
+        
+        const teams = await SELECT.from(dbe.Teams);
+        
+        const settings = matches.map((match) => {
+            return {...match, team_1: teams.find((team) => match.team_1_ID === team.ID).team_name, team_2: teams.find((team) => match.team_2_ID === team.ID).team_name}
+        });
+    
+        return settings
+    });
 }
