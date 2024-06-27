@@ -24,7 +24,7 @@ module.exports = async (srv) => {
         const sDate = new Date().toISOString();
         
         if(date <= sDate) {
-            return req.error(400, "Data da partida inválida.")
+            return req.error(400, "Data e hora da partida inválida.")
         };
 
         const existingMatch = await SELECT.one().from(dbe.Matches).where({ date, stadium });
@@ -61,6 +61,37 @@ module.exports = async (srv) => {
         return console.log(`Partida criada com sucesso`);
     });
     
+    srv.before('CREATE', 'Championships', async (req) => {
+        const { name , descr } = req.data;
 
+        const existsChampionship = await SELECT.one().from(dbe.Championships).where({ name });
+
+        if(existsChampionship) {
+            return req.error(400, `Torneio ${name} já foi criado.`);
+        }
+
+        return console.log('Campeonato disponível para criação.');
+        
+    });
+
+    srv.on('CREATE', 'Championships', async (req) => {
+        const { ID, name, descr } = req.data;
+
+        await INSERT({
+            ID: ID,
+            name: name,
+            descr: descr
+        }).into(dbe.Championships);
+
+        const championship = await SELECT.one().from(dbe.Championships).where({ ID: ID });
+
+        console.log(championship)
+
+        return championship
+    });
+
+    srv.after('CREATE', 'Championships', async (req) => {
+        return console.log('Campeonato criado com sucesso.')
+    });
 
 }
