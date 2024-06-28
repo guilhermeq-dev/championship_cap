@@ -1,4 +1,4 @@
-@server = http://localhost:4023
+@server = http://localhost:4004
 @auth = Authorization: Basic alice:
 
 // CHAMPIONSHIPS

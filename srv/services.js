@@ -38,7 +38,7 @@ module.exports = async (srv) => {
         return req.data;
     });
 
-    srv.on('CREATE', 'Matches', async (req) => {
+    srv.on('CREATE', 'Matches', async (req, next) => {
         const { ID, team_1_ID, team_2_ID, date, stadium, championship_ID } = req.data;
 
         await INSERT([{
@@ -129,14 +129,22 @@ module.exports = async (srv) => {
     });
 
     srv.on('getMatches', async (req) => {
-        const matches = await SELECT.from(dbe.Matches);
+        const selectMatches = new Promise((resolve) =>{
+                resolve(SELECT.from(dbe.Matches));
+           });
         
-        const teams = await SELECT.from(dbe.Teams);
+        const selectTeams = new Promise((resolve) => {
+                resolve(SELECT.from(dbe.Teams));
+            })
         
-        const settings = matches.map((match) => {
-            return {...match, team_1: teams.find((team) => match.team_1_ID === team.ID).team_name, team_2: teams.find((team) => match.team_2_ID === team.ID).team_name}
+        const results = await Promise.all([selectMatches, selectTeams]).then(([ matches, teams ]) => {
+            const settings = matches.map((match) => {
+                return {...match, team_1: teams.find((team) => match.team_1_ID === team.ID).team_name, team_2: teams.find((team) => match.team_2_ID === team.ID).team_name}
+            });
+
+            return settings;
         });
-    
-        return settings
+        console.log(results)
+        return results;
     });
 }

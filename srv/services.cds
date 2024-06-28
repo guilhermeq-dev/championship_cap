@@ -13,3 +13,13 @@ service MainService {
         stadium     : String;
     }
 }
+
+// Utilizar no package.json
+// "cds": {
+//     "requires": {
+//       "db": "sqlite",
+//       "auth": {
+//         "kind": "mocked"
+//       }
+//     }
+//   }

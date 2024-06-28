@@ -21,3 +21,5 @@ entity Matches : cuid {
     stadium         : String;
     championship    : Association to Championships;
 }
+
+// tabela de estádios
