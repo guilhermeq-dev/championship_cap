@@ -135,16 +135,16 @@ module.exports = async (srv) => {
         
         const selectTeams = new Promise((resolve) => {
                 resolve(SELECT.from(dbe.Teams));
-            })
+            });
         
-        const results = await Promise.all([selectMatches, selectTeams]).then(([ matches, teams ]) => {
+        const results = Promise.all([selectMatches, selectTeams]).then(([ matches, teams ]) => {
             const settings = matches.map((match) => {
                 return {...match, team_1: teams.find((team) => match.team_1_ID === team.ID).team_name, team_2: teams.find((team) => match.team_2_ID === team.ID).team_name}
             });
 
             return settings;
         });
-        console.log(results)
+    
         return results;
     });
 }
