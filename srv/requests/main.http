@@ -1,4 +1,4 @@
-@server = http://localhost:4007
+@server = http://localhost:4010
 @auth = Authorization: Basic alice:
 
 // CHAMPIONSHIPS
@@ -57,14 +57,14 @@ Content-Type: application/json
 }
 
 ### MainService.Championships
-DELETE {{server}}/odata/v4/main/Championships/69ce4558-e23b-477a-84e7-a74a728f139a
+DELETE {{server}}/odata/v4/main/Championships/52d3044e-3efd-4ae3-bd11-4453cfbbaca6
 Content-Type: application/json
 {{auth}}
 
 // TEAMS
 
 ### MainService.Teams
-GET {{server}}/odata/v4/main/Teams
+GET {{server}}/odata/v4/main/Teams?$expand=matches_as_team1,matches_as_team2
 Content-Type: application/json
 {{auth}}
 
@@ -79,7 +79,7 @@ Content-Type: application/json
 }
 
 ### MainService.Teams
-DELETE {{server}}/odata/v4/main/Teams/4bdbee7e-c78b-408a-bc1d-e44b6dd98cad
+DELETE {{server}}/odata/v4/main/Teams/33d3044e-3efd-4ae3-bd11-4453cfbbaca6
 Content-Type: application/json
 {{auth}}
 
@@ -111,7 +111,7 @@ Content-Type: application/json
 // Stadium
 
 ### MainService.Stadiums
-GET  {{server}}/odata/v4/main/Stadiums
+GET  {{server}}/odata/v4/main/Stadiums?$expand=matches
 Content-Type: application/json
 {{auth}}
 
