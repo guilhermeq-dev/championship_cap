@@ -7,11 +7,12 @@ module.exports = async (srv) => {
 
     srv.before('CREATE', 'Matches', async (req) => {
 
-        const { team_1_ID, team_2_ID, date, stadium, championship_ID } = req.data;
+        const { team_1_ID, team_2_ID, date, stadium_ID, championship_ID } = req.data;
         
         const team1 = await SELECT.one().from(dbe.Teams).where({ ID: team_1_ID });
         const team2 = await SELECT.one().from(dbe.Teams).where({ ID: team_2_ID });
         const championship = await SELECT.one().from(dbe.Championships).where({ ID: championship_ID });
+        const stadium = await SELECT.one().from(dbe.Stadiums).where({ ID: stadium_ID });
 
         if(!team1 || !team2 || !championship) {
             return req.error(404, "Time ou campeonato não encontrado.");
@@ -24,29 +25,35 @@ module.exports = async (srv) => {
         const sDate = new Date().toISOString();
         
         if(date <= sDate) {
-            return req.error(400, "Data e hora da partida inválida.")
+            return req.error(400, "Data e hora da partida inválida.");
         };
 
-        const existingMatch = await SELECT.one().from(dbe.Matches).where({ date, stadium });
+        if(!stadium) {
+            return req.error(404, "Selecione um estádio válido.")
+        }
+
+        const existingMatch = await SELECT.one().from(dbe.Matches).where({ date, stadium_ID });
 
         if(existingMatch) {
             return req.error(400, 'Já existe uma partida agendada para este horário nesse estádio.');
         };
 
-        console.log(`Partida entre ${team1.team_name} e ${team2.team_name} no estádio ${stadium} está valida.`);
+        const stadiumName = 'testeio'
+
+        console.log(`Partida entre ${team1.team_name} e ${team2.team_name} no ${stadiumName} está valida.`);
 
         return req.data;
     });
 
     srv.on('CREATE', 'Matches', async (req, next) => {
-        const { ID, team_1_ID, team_2_ID, date, stadium, championship_ID } = req.data;
-
+        const { ID, team_1_ID, team_2_ID, date, stadium_ID, championship_ID } = req.data;
+        console.log(stadium_ID)
         await INSERT([{
             ID: ID,
             team_1_ID: team_1_ID,
             team_2_ID: team_2_ID,
             date: date,
-            stadium: stadium,
+            stadium_ID: stadium_ID,
             championship_ID: championship_ID
         }]).into(dbe.Matches)
 

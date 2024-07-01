@@ -3,15 +3,15 @@ namespace cap.championship;
 using { cuid } from '@sap/cds/common';
 
 entity Championships : cuid {
-    name        : String;
-    descr       : String;
-    teams       : Composition of many Teams on teams.championship = $self;
-    matches     : Composition of many Matches on matches.championship = $self;
+    name            : String;
+    descr           : String;
+    teams           : Composition of many Teams on teams.championship = $self;
+    matches         : Composition of many Matches on matches.championship = $self;
 }
 
 entity Teams : cuid {
-    team_name           : String;
-    championship        : Association to Championships;
+    team_name       : String;
+    championship    : Association to Championships;
 }
 
 entity Matches : cuid {
@@ -24,5 +24,5 @@ entity Matches : cuid {
 
 entity Stadiums : cuid {
     stadium_name    : String;
-    matches         : Composition of many Matches on matches.stadium = $self;
+    matches         : Association to many Matches on matches.stadium = $self;
 }
