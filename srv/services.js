@@ -28,9 +28,6 @@ module.exports = async (srv) => {
             return req.error(400, "Data e hora da partida inválida.");
         };
 
-        if(!stadium) {
-            return req.error(404, "Selecione um estádio válido.")
-        }
 
         const existingMatch = await SELECT.one().from(dbe.Matches).where({ date, stadium_ID });
 
