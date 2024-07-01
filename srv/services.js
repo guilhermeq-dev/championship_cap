@@ -14,8 +14,8 @@ module.exports = async (srv) => {
         const championship = await SELECT.one().from(dbe.Championships).where({ ID: championship_ID });
         const stadium = await SELECT.one().from(dbe.Stadiums).where({ ID: stadium_ID });
 
-        if(!team1 || !team2 || !championship) {
-            return req.error(404, "Time ou campeonato não encontrado.");
+        if(!team1 || !team2 || !championship || !stadium) {
+            return req.error(404, "Time, estádio ou campeonato não encontrado.");
         };
         
         if(team_1_ID === team_2_ID) {
@@ -38,9 +38,7 @@ module.exports = async (srv) => {
             return req.error(400, 'Já existe uma partida agendada para este horário nesse estádio.');
         };
 
-        const stadiumName = 'testeio'
-
-        console.log(`Partida entre ${team1.team_name} e ${team2.team_name} no ${stadiumName} está valida.`);
+        console.log(`Partida entre ${team1.team_name} e ${team2.team_name} no estádio ${stadium.stadium_name} está valida.`);
 
         return req.data;
     });
