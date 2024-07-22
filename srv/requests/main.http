@@ -1,4 +1,4 @@
-@server = http://localhost:4010
+@server = http://localhost:4012
 @auth = Authorization: Basic alice:
 
 // CHAMPIONSHIPS
@@ -69,12 +69,17 @@ Content-Type: application/json
 {{auth}}
 
 ### MainService.Teams
+GET {{server}}/odata/v4/main/Teams
+Content-Type: application/json
+{{auth}}
+
+### MainService.Teams
 POST {{server}}/odata/v4/main/Teams
 Content-Type: application/json
 {{auth}}
 
 {
-    "team_name": "Juventude",
+    "team_name": "Goias",
     "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
 }
 
@@ -99,7 +104,7 @@ Content-Type: application/json
     "team_1_ID": "34e3044e-3efd-4ae3-bd11-4453cfbbaca6",
     "team_2_ID": "35f3044e-3efd-4ae3-bd11-4453cfbbaca6",
     "date": "2024-07-31T12:00:00.484Z",
-    "stadium_ID": "ce11a7bb-3fa0-460b-bfee-cc9efa8ef27e",
+    "stadium_ID": "272f5e50-1a5d-4a07-ada5-90798f0bd695",
     "championship_ID": "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
 }
 
@@ -123,4 +128,18 @@ Content-Type: application/json
 
 {
   "stadium_name": "Vila Belmiro"
+}
+
+### MainService.UpdateMatch
+POST {{server}}/odata/v4/main/UpdateMatch
+Content-Type: application/json
+{{auth}}
+
+{
+  "ID"                 : "39d6487e-efec-4bda-810d-4660521986f4",
+  "team_1_ID"          : "33d3044e-3efd-4ae3-bd11-4453cfbbaca6",
+  "team_2_ID"          : "017a519a-6e59-4131-b5b3-42249210c46c",
+  "date"               : "2024-07-30T20:07:20.676Z",
+  "stadium_ID"         : "272f5e50-1a5d-4a07-ada5-90798f0bd695",
+  "championship_ID"    : "52d3044e-3efd-4ae3-bd11-4453cfbbaca6"
 }

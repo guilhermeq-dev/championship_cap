@@ -12,7 +12,16 @@ service MainService {
         team_2      : String;
         date        : Timestamp;
         stadium     : String;
-    }
+    };
+
+    action UpdateMatch(
+        ID                 : String,
+        team_1_ID          : String,
+        team_2_ID          : String,
+        date               : String,
+        stadium_ID         : String,
+        championship_ID    : String
+    ) returns String;
 }
 
 // Utilizar no package.json

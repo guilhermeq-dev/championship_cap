@@ -6,7 +6,6 @@ module.exports = async (srv) => {
     const dbe = db.entities;
 
     srv.before('CREATE', 'Matches', async (req) => {
-
         const { team_1_ID, team_2_ID, date, stadium_ID, championship_ID } = req.data;
         
         const team1 = await SELECT.one().from(dbe.Teams).where({ ID: team_1_ID });
@@ -15,7 +14,7 @@ module.exports = async (srv) => {
         const stadium = await SELECT.one().from(dbe.Stadiums).where({ ID: stadium_ID });
 
         if(!team1 || !team2 || !championship || !stadium) {
-            return req.error(404, "Time, estádio ou campeonato não encontrado.");
+            return req.error(401, "Time, estádio ou campeonato não encontrado.");
         };
         
         if(team_1_ID === team_2_ID) {
@@ -64,7 +63,7 @@ module.exports = async (srv) => {
     });
     
     srv.before('CREATE', 'Championships', async (req) => {
-        const { name , descr } = req.data;
+        const { name } = req.data;
 
         const existsChampionship = await SELECT.one().from(dbe.Championships).where({ name });
 
@@ -97,12 +96,12 @@ module.exports = async (srv) => {
     });
 
     srv.before('CREATE', 'Teams', async (req) => {
-        const { ID, team_name, championship_ID } = req.data;
+        const { team_name } = req.data;
 
         const existsTeam = await SELECT.one().from(dbe.Teams).where({ team_name });
 
         if(existsTeam) {
-            return req.error(400, "Time já cadastrado.")
+            return req.error(400, "Time já cadastrado.");
         }
 
         return console.log(`O time ${team_name} está pronto para ser inserido no campeonato.`)
@@ -156,5 +155,38 @@ module.exports = async (srv) => {
         });
     
         return results;
+    });
+
+    srv.before('CREATE', 'Stadiums', async (req) => {
+        const { stadium_name } = req.data;
+
+        const existsStadium = await SELECT.one().from(dbe.Stadiums).where({ stadium_name });
+
+        if(existsStadium) {
+            return req.error(400, `Estádio ${stadium_name} já existe.`)
+        }; 
+        
+        return console.log(`O estádio ${stadium_name} está pronto para ser inserido no campeonato.`)
+    });
+
+    srv.on('UpdateMatch', async (req) => {
+        const { ID, team_1_ID, team_2_ID, date, stadium_ID, championship_ID } = req.data;
+        
+        await UPDATE(dbe.Matches)
+          .set({
+            team_1_ID: team_1_ID,
+            team_2_ID: team_2_ID,
+            date: date,
+            stadium_ID: stadium_ID,
+            championship_ID: championship_ID 
+          })
+          .where({ ID: ID });
+    
+        const match = await SELECT.one().from(dbe.Matches).where({ ID: ID });
+        
+        console.log('Partida atualizada com sucesso.')
+
+        return { match }
+    
     });
 }
